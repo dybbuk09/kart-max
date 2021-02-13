@@ -1,0 +1,29 @@
+{
+    "name": "harish-rawat/kartmax",
+    "description": "KartMax micro framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Harish Rawat",
+            "email": "dev.harishrawat@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : "^7.3|^8.0",
+        "vlucas/phpdotenv": "^5.2",
+        "symfony/cache": "^5.2",
+        "phpmailer/phpmailer": "^6.2",
+        "egulias/email-validator": "^2.1.10",
+        "symfony/http-foundation": "^5.2",
+        "illuminate/database": "^8.27"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "KartMax\\" : "src/"
+        },
+        "files" : [
+            "src/Helpers.php"
+        ]
+    }
+}
