@@ -58,6 +58,13 @@ class Application
 	 */
 	public function run()
 	{
+		/**
+		 * Create database connection
+		 */
+		$capsuleInstance = new Database(defaultDB());
+		$capsuleInstance->capsule->setAsGlobal();
+        $capsuleInstance->capsule->bootEloquent();
+
 		echo $this->router->resolve($this->middlewares);
 	}
 

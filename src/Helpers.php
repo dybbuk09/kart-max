@@ -3,63 +3,53 @@
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use Egulias\EmailValidator\EmailValidator;
+use Illuminate\Support\Collection;
 use KartMax\Application;
-
+use KartMax\Config;
 
 if (!function_exists('basepath')) 
 {
-	
 	/**
 	 * This function return the basepath of the app
 	 */
-
 	function basepath()
 	{
 		return Application::getBasePath();
 	}
 }
 
-
 if (!function_exists('fine')) 
 {
-	
 	/**
 	 * This function return an output which shows your app is running
 	 */
-
 	function fine()
 	{
 		return jsonResponse(['message' => 'App is running']);
 	}
 }
 
-
 if (!function_exists('env')) 
 {
-	
 	/**
 	 * Gets the value of an environment variable.
 	 * @param string $key
 	 * @return string
 	 */
-
 	function env($value)
 	{
 		return $_ENV[$value];
 	}
 }
 
-
 if (!function_exists('jsonRepsonse')) 
 {
-	
 	/**
 	 * Return Data in form of json
 	 * @param array $data
 	 * @param int $statusCode
 	 * @return mixed
 	 */
-
 	function jsonResponse($data, $statusCode=200)
 	{
 		http_response_code($statusCode);
@@ -68,7 +58,6 @@ if (!function_exists('jsonRepsonse'))
 	}
 }
 
-
 if (!function_exists('cache')) 
 {
 	/**
@@ -76,7 +65,6 @@ if (!function_exists('cache'))
 	 * @param
 	 * @return object
 	 */
-
 	function cache()
 	{
 		return new FilesystemAdapter(
@@ -96,17 +84,14 @@ if (!function_exists('cache'))
 	}
 }
 
-
 if (!function_exists('pluck')) 
 {
-	
 	/**
 	 * Return all rows from a set of data for a particular key or column
 	 * @param string $columnName
 	 * @param array $data
 	 * @return array $keysValue
 	 */
-
 	function pluck($columnName, $data)
 	{
 		$keysValue = [];
@@ -117,10 +102,8 @@ if (!function_exists('pluck'))
 	}
 }
 
-
 if (!function_exists('isValidEmail')) 
 {
-	
 	/**
 	 * Check if given email address is valid or not using Egulias email validator
 	 * @param string $email
@@ -136,9 +119,7 @@ if (!function_exists('isValidEmail'))
 	}
 }
 
-
 if (!function_exists('getCsv')) {
-	
 	/**
 	 * This function converts your given data into a csv file
 	 * @param string $filename
@@ -172,12 +153,9 @@ if (!function_exists('getCsv')) {
 		foreach ($csvRows as $key => $row) {
 			fputcsv($f, $row, $delimiter);
 		}
-
 		fclose($f);
 	}
-	
 }
-
 
 if(!function_exists('getCurl'))
 {
@@ -205,4 +183,63 @@ if(!function_exists('getCurl'))
 		curl_close($curl);
 		return $response;
 	}
+}
+
+if (! function_exists('collect')) 
+{
+    /**
+     * Create a collection from the given value.
+     *
+     * @param  mixed  $value
+     * @return \Illuminate\Support\Collection
+     */
+    function collect($value = null)
+    {
+        return new Collection($value);
+    }
+}
+
+if (! function_exists('defaultDB')) 
+{
+	/**
+	 * Get default database configuration
+	 */
+	function defaultDB()
+	{
+		return [
+			'driver'    => env('DB_CONNECTION'),
+            'host'      => env('DB_HOST'),
+            'database'  => env('DB_NAME'),
+            'username'  => env('DB_USERNAME'),
+            'password'  => env('DB_PASSWORD'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+		];
+	}
+}
+
+if (! function_exists('config')) {
+    /**
+     * Get the specified configuration value.
+     *
+     * @param  array|string|null  $key
+     */
+    function config($key)
+    {
+		$keys = explode('.', $key);
+		$file = require_once Application::getBasePath()."/config/{$keys[0]}.php";
+		$returnValue = null;
+		/**
+		 * Check of length of keys is more than one
+		 */
+		if(count($keys) > 1)
+		{
+			for ($i=1; $i < count($keys); $i++) { 
+				$returnValue = $file[$keys[$i]];
+			}
+		}		
+
+		return $returnValue;
+    }
 }

@@ -6,25 +6,14 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {
+	public $capsule;
 
-	protected $connection;
-	protected $query;
-
-	public function __construct()
+	public function __construct($configuration)
 	{
 		try 
 		{
-			$capsule = new Capsule;
-			$capsule->addConnection([
-				'driver'    => env('DB_CONNECTION'),
-				'host'      => env('DB_HOST'),
-				'database'  => env('DB_NAME'),
-				'username'  => env('DB_USERNAME'),
-				'password'  => env('DB_PASSWORD'),
-				'charset'   => 'utf8',
-				'collation' => 'utf8_unicode_ci',
-				'prefix'    => '',
-			]);
+			$this->capsule = new Capsule;
+			$this->capsule->addConnection($configuration);
 		} 
 		catch (Exeception $e) 
 		{
