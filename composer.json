@@ -19,7 +19,8 @@
         "illuminate/database": "^8.27",
         "illuminate/pagination": "^8.27",
         "symfony/console": "^5.2",
-        "illuminate/cache": "^8.28"
+        "illuminate/cache": "^8.28",
+        "illuminate/filesystem": "^8.28"
     },
     "autoload" : {
         "psr-4" : {
